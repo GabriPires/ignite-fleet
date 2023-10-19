@@ -1,4 +1,5 @@
 import { IOS_CLIENT_ID } from '@env'
+import { Realm, useApp } from '@realm/react'
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import { useEffect, useState } from 'react'
@@ -11,6 +12,8 @@ WebBrowser.maybeCompleteAuthSession()
 
 export function SignIn() {
   const [isAuthenticating, setIsAuthenticating] = useState(false)
+
+  const app = useApp()
 
   const [, response, googleSignIn] = Google.useAuthRequest({
     // temporary workaround for android client id don't work
@@ -32,11 +35,17 @@ export function SignIn() {
   useEffect(() => {
     if (response?.type === 'success') {
       if (response.authentication?.idToken) {
-        fetch(
-          `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${response.authentication.idToken}`,
+        const credentials = Realm.Credentials.jwt(
+          response.authentication.idToken,
         )
-          .then(async (res) => res.json())
-          .then(console.log)
+
+        app.logIn(credentials).catch(() => {
+          Alert.alert(
+            'Entrar',
+            'Não foi possível conectar com a sua conta do Google',
+          )
+          setIsAuthenticating(false)
+        })
       } else {
         Alert.alert(
           'Entrar',
