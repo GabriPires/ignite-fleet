@@ -28,4 +28,4 @@ export default {
     XXL: 24,
     XXXL: 32,
   },
-}
+} as const
