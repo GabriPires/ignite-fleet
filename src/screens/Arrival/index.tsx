@@ -1,7 +1,9 @@
 import { useRoute } from '@react-navigation/native'
+import { X } from 'phosphor-react-native'
 import React from 'react'
 import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
+import { IconButton } from '../../components/IconButton'
 import {
   Container,
   Content,
@@ -36,6 +38,7 @@ export function Arrival() {
         </Description>
 
         <Footer>
+          <IconButton icon={X} />
           <Button title="Registrar chegada" />
         </Footer>
       </Content>
