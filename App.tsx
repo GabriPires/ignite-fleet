@@ -1,3 +1,5 @@
+import 'react-native-get-random-values'
+
 import { REALM_APP_ID } from '@env'
 import {
   Roboto_400Regular,
