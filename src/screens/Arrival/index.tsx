@@ -1,9 +1,12 @@
 import { useRoute } from '@react-navigation/native'
 import { X } from 'phosphor-react-native'
 import React from 'react'
+import { BSON } from 'realm'
 import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
 import { IconButton } from '../../components/IconButton'
+import { useObject } from '../../libs/realm'
+import { Historic } from '../../libs/realm/schemas/Historic'
 import {
   Container,
   Content,
@@ -21,21 +24,18 @@ export function Arrival() {
   const route = useRoute()
   const { id } = route.params as ArrivalScreenParamsProps
 
+  const historic = useObject(Historic, new BSON.UUID(id) as unknown as string)
+
   return (
     <Container>
       <Header title="Chegada" />
 
       <Content>
         <Label>Placa do veículo</Label>
-        <LicensePlate>XXX1234</LicensePlate>
+        <LicensePlate>{historic?.license_plate}</LicensePlate>
 
         <Label>Finalidade</Label>
-        <Description>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
-          soluta aperiam totam possimus aut pariatur! Voluptate error a,
-          asperiores tempore, quae exercitationem ipsum totam corporis voluptas
-          quos magnam, sit voluptates!
-        </Description>
+        <Description>{historic?.description}</Description>
 
         <Footer>
           <IconButton icon={X} />
