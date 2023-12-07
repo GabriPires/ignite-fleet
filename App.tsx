@@ -12,7 +12,7 @@ import { StatusBar } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ThemeProvider } from 'styled-components/native'
 import { Loading } from './src/components/Loading'
-import { RealmProvider } from './src/libs/realm'
+import { RealmProvider, syncConfig } from './src/libs/realm'
 import { Routes } from './src/routes'
 import { SignIn } from './src/screens/SignIn'
 import theme from './src/theme'
@@ -39,7 +39,7 @@ export default function App() {
             translucent
           />
           <UserProvider fallback={<SignIn />}>
-            <RealmProvider>
+            <RealmProvider sync={syncConfig} fallback={Loading}>
               <Routes />
             </RealmProvider>
           </UserProvider>
