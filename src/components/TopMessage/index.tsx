@@ -17,7 +17,7 @@ export function TopMessage({ title, icon: Icon }: Props) {
 
   return (
     <Container style={{ paddingTop }}>
-      {Icon && <Icon size={24} color={theme.COLORS.BRAND_MID} />}
+      {Icon && <Icon size={24} color={theme.COLORS.GRAY_100} />}
       <Title>{title}</Title>
     </Container>
   )
