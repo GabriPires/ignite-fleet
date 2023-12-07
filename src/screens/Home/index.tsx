@@ -60,6 +60,10 @@ export function Home() {
     }
   }
 
+  function handleHistoricDetail(id: string) {
+    navigate('arrival', { id })
+  }
+
   useEffect(() => {
     fetchVehicleInUse()
   }, [])
@@ -90,7 +94,12 @@ export function Home() {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 100 }}
-          renderItem={({ item }) => <HistoricCard data={item} />}
+          renderItem={({ item }) => (
+            <HistoricCard
+              data={item}
+              onPress={() => handleHistoricDetail(item.id)}
+            />
+          )}
           ListEmptyComponent={() => <Label>Nenhum veículo utilizado</Label>}
         />
       </Content>
