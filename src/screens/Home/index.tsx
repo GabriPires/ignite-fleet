@@ -7,6 +7,10 @@ import Realm from 'realm'
 import { CarStatus } from '../../components/CarStatus'
 import { HistoricCard, HistoricCardProps } from '../../components/HistoricCard'
 import { HomeHeader } from '../../components/HomeHeader'
+import {
+  getLastSyncTimeStamp,
+  saveLastSyncTimeStamp,
+} from '../../libs/async-storage/sync-storage'
 import { useQuery, useRealm } from '../../libs/realm'
 import { Historic } from '../../libs/realm/schemas/Historic'
 import { Container, Content, Label, Title } from './styles'
@@ -41,16 +45,18 @@ export function Home() {
     }
   }
 
-  function fetchHistoric() {
+  async function fetchHistoric() {
     try {
       const response = historic.filtered(
         "status = 'arrival' SORT(created_at DESC)",
       )
 
+      const lastSync = await getLastSyncTimeStamp()
+
       const formattedHistoric = response.map((item) => ({
         id: item._id.toString(),
         licensePlate: item.license_plate,
-        isSync: false,
+        isSync: lastSync > item.updated_at.getTime(),
         created: dayjs(item.created_at).format(
           '[Saída em] DD/MM/YYYY [às] HH:mm',
         ),
@@ -67,9 +73,16 @@ export function Home() {
     navigate('arrival', { id })
   }
 
-  function progressNotification(transferred: number, transferable: number) {
+  async function progressNotification(
+    transferred: number,
+    transferable: number,
+  ) {
     const percentage = Math.round((transferred / transferable) * 100)
-    console.log(percentage)
+
+    if (percentage === 100) {
+      await saveLastSyncTimeStamp()
+      fetchHistoric()
+    }
   }
 
   useEffect(() => {

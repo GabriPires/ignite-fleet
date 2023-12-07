@@ -12,5 +12,5 @@ export async function saveLastSyncTimeStamp() {
 export async function getLastSyncTimeStamp() {
   const timeStamp = await AsyncStorage.getItem(ASYNC_STORAGE_KEY)
 
-  return timeStamp ? Number(timeStamp) : null
+  return Number(timeStamp)
 }
