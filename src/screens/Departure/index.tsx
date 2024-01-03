@@ -11,7 +11,12 @@ import { useRealm } from '../../libs/realm'
 import { Historic } from '../../libs/realm/schemas/Historic'
 import { licensePlateValidate } from '../../utils/license-plate-validate'
 import { Container, Content, Message } from './styles'
-import { useForegroundPermissions } from 'expo-location'
+import {
+  type LocationSubscription,
+  LocationAccuracy,
+  useForegroundPermissions,
+  watchPositionAsync,
+} from 'expo-location'
 
 export function Departure() {
   const [description, setDescription] = useState('')
@@ -80,6 +85,28 @@ export function Departure() {
   useEffect(() => {
     requestLocationForegroundPermission()
   }, [])
+
+  useEffect(() => {
+    if (!locationForegroundPermission?.granted) {
+      return
+    }
+
+    let subscription: LocationSubscription
+
+    watchPositionAsync(
+      {
+        accuracy: LocationAccuracy.High,
+        timeInterval: 1000,
+      },
+      (location) => {
+        console.log(location)
+      },
+    ).then((sub) => {
+      subscription = sub
+    })
+
+    return () => subscription?.remove()
+  }, [locationForegroundPermission])
 
   if (!locationForegroundPermission?.granted) {
     return (
