@@ -17,6 +17,7 @@ import {
   useForegroundPermissions,
   watchPositionAsync,
 } from 'expo-location'
+import { getAddressLocation } from '../../utils/get-address-location'
 
 export function Departure() {
   const [description, setDescription] = useState('')
@@ -99,7 +100,9 @@ export function Departure() {
         timeInterval: 1000,
       },
       (location) => {
-        console.log(location)
+        getAddressLocation(location.coords).then((address) => {
+          console.log(address)
+        })
       },
     ).then((sub) => {
       subscription = sub
