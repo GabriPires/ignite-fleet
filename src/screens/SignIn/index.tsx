@@ -4,6 +4,7 @@ import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
+
 import backgroundImg from '../../assets/background.png'
 import { Button } from '../../components/Button'
 import { Container, Slogan, Title } from './styles'

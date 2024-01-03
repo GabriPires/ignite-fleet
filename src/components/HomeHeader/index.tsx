@@ -2,6 +2,7 @@ import { useApp, useUser } from '@realm/react'
 import { Power } from 'phosphor-react-native'
 import { TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
 import theme from '../../theme'
 import { Container, Greeting, Message, Name, Picture } from './styles'
 

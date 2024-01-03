@@ -4,6 +4,7 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTheme } from 'styled-components'
+
 import { Container, Title } from './styles'
 
 interface HeaderProps {

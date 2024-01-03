@@ -1,7 +1,8 @@
-import React from 'react'
-import { Container, SizeProps } from './styles'
 import { IconProps } from 'phosphor-react-native'
+import React from 'react'
 import { useTheme } from 'styled-components/native'
+
+import { Container, SizeProps } from './styles'
 
 export type IconBoxProps = (props: IconProps) => JSX.Element
 

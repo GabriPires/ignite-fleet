@@ -1,9 +1,11 @@
 {
   "extends": ["@gabpires/eslint-config/react-native"],
+  "plugins": ["simple-import-sort"],
   "rules": {
     "camelcase": "off",
     "react-native/no-raw-text": "off",
     "no-use-before-define": "off",
-    "react-native/no-inline-styles": "off"
+    "react-native/no-inline-styles": "off",
+    "simple-import-sort/imports": "error"
   }
 }

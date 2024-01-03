@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTheme } from 'styled-components/native'
+
 import { IconBoxProps } from '../IconButton'
 import { Container, Title } from './styles'
 

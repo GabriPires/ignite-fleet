@@ -1,7 +1,8 @@
 import React from 'react'
-import { Container, Description, Info, Label } from './styles'
+
 import { IconBox } from '../IconBox'
 import { IconBoxProps } from '../IconButton'
+import { Container, Description, Info, Label } from './styles'
 
 export type LocationInfoProps = {
   label: string

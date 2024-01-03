@@ -2,6 +2,7 @@ import { Check, ClockClockwise } from 'phosphor-react-native'
 import React from 'react'
 import { TouchableOpacityProps } from 'react-native'
 import { useTheme } from 'styled-components/native'
+
 import { Container, Departure, Info, LicensePlate } from './styles'
 
 export interface HistoricCardProps {

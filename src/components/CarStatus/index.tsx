@@ -2,6 +2,7 @@ import { Car, Key } from 'phosphor-react-native'
 import React from 'react'
 import { TouchableOpacityProps } from 'react-native'
 import { useTheme } from 'styled-components'
+
 import { Container, IconBox, Message, TextHighlight } from './styles'
 
 type CarStatusProps = TouchableOpacityProps & {
