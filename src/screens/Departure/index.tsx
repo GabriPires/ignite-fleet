@@ -18,11 +18,13 @@ import {
   watchPositionAsync,
 } from 'expo-location'
 import { getAddressLocation } from '../../utils/get-address-location'
+import { Loading } from '../../components/Loading'
 
 export function Departure() {
   const [description, setDescription] = useState('')
   const [licensePlate, setLicensePlate] = useState('')
   const [isRegistering, setIsRegistering] = useState(false)
+  const [isLoadingLocation, setIsLoadingLocation] = useState(true)
 
   const [locationForegroundPermission, requestLocationForegroundPermission] =
     useForegroundPermissions()
@@ -100,9 +102,13 @@ export function Departure() {
         timeInterval: 1000,
       },
       (location) => {
-        getAddressLocation(location.coords).then((address) => {
-          console.log(address)
-        })
+        getAddressLocation(location.coords)
+          .then((address) => {
+            console.log(address)
+          })
+          .finally(() => {
+            setIsLoadingLocation(false)
+          })
       },
     ).then((sub) => {
       subscription = sub
@@ -122,6 +128,10 @@ export function Departure() {
         </Message>
       </Container>
     )
+  }
+
+  if (isLoadingLocation) {
+    return <Loading />
   }
 
   return (
