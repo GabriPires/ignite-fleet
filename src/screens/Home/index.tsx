@@ -91,7 +91,6 @@ export function Home() {
 
       Toast.show({
         type: 'info',
-
         text1: 'Todos os dados estão sincronizados',
       })
     }
