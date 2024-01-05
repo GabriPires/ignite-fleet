@@ -9,6 +9,7 @@ import { Header } from '../../components/Header'
 import { IconButton } from '../../components/IconButton'
 import { useObject, useRealm } from '../../libs/realm'
 import { Historic } from '../../libs/realm/schemas/Historic'
+import { stopLocationTrackingTask } from '../../tasks/background-location-task'
 import {
   Container,
   Content,
@@ -52,7 +53,7 @@ export function Arrival() {
     })
   }
 
-  function handleRegisterArrive() {
+  async function handleRegisterArrive() {
     try {
       if (!historic) {
         return Alert.alert(
@@ -60,6 +61,8 @@ export function Arrival() {
           'Não foi possível obter os dados para registrar a chegada do veículo',
         )
       }
+
+      await stopLocationTrackingTask()
 
       realm.write(() => {
         historic.status = 'arrival'
