@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useUser } from '@realm/react'
 import {
   LocationAccuracy,
+  LocationObjectCoords,
   type LocationSubscription,
   useForegroundPermissions,
   watchPositionAsync,
@@ -16,6 +17,7 @@ import { Header } from '../../components/Header'
 import { LicensePlateInput } from '../../components/LicensePlateInput'
 import { Loading } from '../../components/Loading'
 import { LocationInfo } from '../../components/LocationInfo'
+import { Map } from '../../components/Map'
 import { TextAreaInput } from '../../components/TextAreaInput'
 import { useRealm } from '../../libs/realm'
 import { Historic } from '../../libs/realm/schemas/Historic'
@@ -29,6 +31,8 @@ export function Departure() {
   const [isRegistering, setIsRegistering] = useState(false)
   const [isLoadingLocation, setIsLoadingLocation] = useState(true)
   const [currentAddress, setCurrentAddress] = useState<string | null>(null)
+  const [currentCoordinates, setCurrentCoordinates] =
+    useState<LocationObjectCoords | null>(null)
 
   const [locationForegroundPermission, requestLocationForegroundPermission] =
     useForegroundPermissions()
@@ -106,6 +110,7 @@ export function Departure() {
         timeInterval: 1000,
       },
       (location) => {
+        setCurrentCoordinates(location.coords)
         getAddressLocation(location.coords)
           .then((address) => {
             if (address) {
@@ -146,6 +151,8 @@ export function Departure() {
 
       <KeyboardAwareScrollView extraHeight={100}>
         <ScrollView>
+          {currentCoordinates && <Map coordinates={[currentCoordinates]} />}
+
           <Content>
             {currentAddress && (
               <LocationInfo
