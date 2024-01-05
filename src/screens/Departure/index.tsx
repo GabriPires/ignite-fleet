@@ -4,6 +4,7 @@ import {
   LocationAccuracy,
   LocationObjectCoords,
   type LocationSubscription,
+  requestBackgroundPermissionsAsync,
   useForegroundPermissions,
   watchPositionAsync,
 } from 'expo-location'
@@ -44,10 +45,8 @@ export function Departure() {
   const realm = useRealm()
   const user = useUser()
 
-  function handleDepartureRegister() {
+  async function handleDepartureRegister() {
     try {
-      setIsRegistering(true)
-
       if (!licensePlateValidate(licensePlate)) {
         licensePlateRef.current?.focus()
 
@@ -70,6 +69,19 @@ export function Departure() {
         return Alert.alert(
           'Localização',
           'Não foi possível obter a localização atual, tente novamente.',
+        )
+      }
+
+      setIsRegistering(true)
+
+      const backgroundPermission = await requestBackgroundPermissionsAsync()
+
+      if (!backgroundPermission.granted) {
+        setIsRegistering(false)
+
+        return Alert.alert(
+          'Localização',
+          'Você precisa permitir o acesso a localização para registrar a saída do veículo. Por favor acesse as configurações do aplicativo para conceder essa permissão "Permitir o tempo todo".',
         )
       }
 
