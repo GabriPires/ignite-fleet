@@ -8,7 +8,7 @@ type LocationProps = {
 
 const ASYNC_STORAGE_KEY = '@ignitefleet:location'
 
-export async function getStoredLocation(): Promise<LocationProps[]> {
+export async function getStoredLocations(): Promise<LocationProps[]> {
   const storage = await AsyncStorage.getItem(ASYNC_STORAGE_KEY)
   const response = storage ? JSON.parse(storage) : []
 
@@ -16,8 +16,12 @@ export async function getStoredLocation(): Promise<LocationProps[]> {
 }
 
 export async function saveLocation(newLocation: LocationProps) {
-  const storage = await getStoredLocation()
+  const storage = await getStoredLocations()
   storage.push(newLocation)
 
   await AsyncStorage.setItem(ASYNC_STORAGE_KEY, JSON.stringify(storage))
+}
+
+export async function clearLocations() {
+  await AsyncStorage.removeItem(ASYNC_STORAGE_KEY)
 }
