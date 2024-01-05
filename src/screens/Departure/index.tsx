@@ -22,6 +22,7 @@ import { Map } from '../../components/Map'
 import { TextAreaInput } from '../../components/TextAreaInput'
 import { useRealm } from '../../libs/realm'
 import { Historic } from '../../libs/realm/schemas/Historic'
+import { startLocationTrackingTask } from '../../tasks/background-location-task'
 import { getAddressLocation } from '../../utils/get-address-location'
 import { licensePlateValidate } from '../../utils/license-plate-validate'
 import { Container, Content, Message } from './styles'
@@ -84,6 +85,8 @@ export function Departure() {
           'Você precisa permitir o acesso a localização para registrar a saída do veículo. Por favor acesse as configurações do aplicativo para conceder essa permissão "Permitir o tempo todo".',
         )
       }
+
+      await startLocationTrackingTask()
 
       realm.write(() => {
         realm.create(
