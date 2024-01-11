@@ -27,8 +27,6 @@ TaskManager.defineTask(
         }
 
         await saveLocation(currentLocation)
-
-        console.log('location-tracking', currentLocation)
       }
     } catch (error) {
       console.log(error)

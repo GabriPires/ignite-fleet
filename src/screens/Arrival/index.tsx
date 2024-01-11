@@ -1,12 +1,14 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { X } from 'phosphor-react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import { BSON } from 'realm'
 
 import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
 import { IconButton } from '../../components/IconButton'
+import { getStoredLocations } from '../../libs/async-storage/location-storage'
+import { getLastSyncTimeStamp } from '../../libs/async-storage/sync-storage'
 import { useObject, useRealm } from '../../libs/realm'
 import { Historic } from '../../libs/realm/schemas/Historic'
 import { stopLocationTrackingTask } from '../../tasks/background-location-task'
@@ -24,6 +26,8 @@ interface ArrivalScreenParamsProps {
 }
 
 export function Arrival() {
+  const [dataNotSynced, setDataNotSynced] = useState(false)
+
   const route = useRoute()
   const { id } = route.params as ArrivalScreenParamsProps
   const { goBack } = useNavigation()
@@ -76,6 +80,19 @@ export function Arrival() {
       Alert.alert('Erro', 'Não foi possível registrar a chegada')
     }
   }
+
+  async function getLocationsInfo() {
+    const lastSync = await getLastSyncTimeStamp()
+    const updatedAt = historic!.updated_at.getTime()
+
+    setDataNotSynced(lastSync > updatedAt)
+
+    const locationsStored = await getStoredLocations()
+  }
+
+  useEffect(() => {
+    getLocationsInfo()
+  }, [historic])
 
   return (
     <Container>
