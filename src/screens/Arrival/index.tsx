@@ -71,9 +71,12 @@ export function Arrival() {
         )
       }
 
+      const storedLocations = await getStoredLocations()
+
       realm.write(() => {
         historic.status = 'arrival'
         historic.updated_at = new Date()
+        historic.coords.push(...storedLocations)
       })
 
       await stopLocationTrackingTask()
