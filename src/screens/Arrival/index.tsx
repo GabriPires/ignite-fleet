@@ -93,13 +93,17 @@ export function Arrival() {
     if (!historic) {
       return
     }
+
     const lastSync = await getLastSyncTimeStamp()
     const updatedAt = historic.updated_at.getTime()
-
     setDataNotSynced(lastSync > updatedAt)
 
-    const locationsStored = await getStoredLocations()
-    setCoordinates(locationsStored)
+    if (historic.status === 'departure') {
+      const locationsStored = await getStoredLocations()
+      setCoordinates(locationsStored)
+    } else {
+      setCoordinates(historic.coords ?? [])
+    }
   }
 
   useEffect(() => {
