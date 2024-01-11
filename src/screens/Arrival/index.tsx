@@ -40,6 +40,15 @@ export function Arrival() {
 
   const title = historic?.status === 'departure' ? 'Chegada' : 'Detalhes'
 
+  async function removeVehicleUsage() {
+    realm.write(() => {
+      realm.delete(historic)
+    })
+
+    await stopLocationTrackingTask()
+    goBack()
+  }
+
   function handleCancelVehicleUsage() {
     Alert.alert('Cancelar', 'Cancelar a utilização do veículo?', [
       {
@@ -53,13 +62,6 @@ export function Arrival() {
     ])
   }
 
-  function removeVehicleUsage() {
-    realm.write(() => {
-      realm.delete(historic)
-      goBack()
-    })
-  }
-
   async function handleRegisterArrive() {
     try {
       if (!historic) {
@@ -69,12 +71,12 @@ export function Arrival() {
         )
       }
 
-      await stopLocationTrackingTask()
-
       realm.write(() => {
         historic.status = 'arrival'
         historic.updated_at = new Date()
       })
+
+      await stopLocationTrackingTask()
 
       Alert.alert('Chegada', 'Chegada registrada com sucesso')
       goBack()
